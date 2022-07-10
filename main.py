@@ -1,6 +1,7 @@
-from datetime import datetime
-
 import requests
+from datetime import datetime
+import telebot
+from auth_data import token
 
 
 def get_data():
@@ -10,5 +11,16 @@ def get_data():
     print(f"{datetime.now().strftime('%Y-%m-%d %H:%M')}\nSell BTC price: {sell_price}")
 
 
+def telegram_bot(token):
+    bot = telebot.TeleBot(token)
+
+    @bot.message_handler(commands=["start"])
+    def start_message(message):
+        bot.send_message(message.chat.id, "Hello my friend! Write the 'price' to find out the cost of BTC!")
+
+    bot.polling()
+
+
 if __name__ == '__main__':
-    get_data()
+    # get_data()
+    telegram_bot(token)
